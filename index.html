@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CPU Scheduling Visualizer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>CPU Scheduling Visualizer</h2>
+    <div class="controls">
+      <input type="text" id="pid" placeholder="PID" />
+      <input type="number" id="arrival" placeholder="Arrival Time" />
+      <input type="number" id="burst" placeholder="Burst Time" />
+      <input type="number" id="priority" placeholder="Priority" style="display:none;" />
+      <button onclick="addProcess()">Add Process</button>
+
+      <select id="algorithm">
+        <option value="fcfs">FCFS</option>
+        <option value="sjf">SJF</option>
+        <option value="priority">Priority</option>
+        <option value="rr">Round Robin</option>
+      </select>
+
+      <input type="number" id="quantum" placeholder="Quantum" style="display:none;" />
+      <button onclick="simulate()">Simulate</button>
+    </div>
+
+    <table id="processTable">
+      <thead>
+        <tr>
+          <th>PID</th>
+          <th>Arrival</th>
+          <th>Burst</th>
+          <th>Priority</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div id="ganttWrapper">
+      <h3>Gantt Chart</h3>
+      <div id="ganttChart"><div class="loader"></div></div>
+    </div>
+
+    <div id="results"></div>
+
+    <canvas id="chartCanvas" height="100"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
