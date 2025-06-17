@@ -3,54 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CPU Scheduling Visualizer</title>
+  <title>CPU Scheduling Simulator</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <h2>CPU Scheduling Simulator</h2>
+
   <div class="container">
-    <h2>CPU Scheduling Visualizer</h2>
-    <div class="controls">
-      <input type="text" id="pid" placeholder="PID" />
-      <input type="number" id="arrival" placeholder="Arrival Time" />
-      <input type="number" id="burst" placeholder="Burst Time" />
-      <input type="number" id="priority" placeholder="Priority" style="display:none;" />
-      <button onclick="addProcess()">Add Process</button>
+    <!-- Left Panel: Input Section -->
+    <div class="left-panel">
+      <table id="inputTable">
+        <thead>
+          <tr>
+            <th>Process ID</th>
+            <th>Arrival Time</th>
+            <th>Burst Time</th>
+            <th>Priority</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="processTable"></tbody>
+      </table>
 
-      <select id="algorithm">
-        <option value="fcfs">FCFS</option>
-        <option value="sjf">SJF</option>
-        <option value="priority">Priority</option>
-        <option value="rr">Round Robin</option>
-      </select>
+      <div class="input-row">
+        <input type="text" id="pid" placeholder="Process ID" />
+        <input type="number" id="arrival" placeholder="Arrival Time" />
+        <input type="number" id="burst" placeholder="Burst Time" />
+        <input type="number" id="priority" placeholder="Priority" />
+        <button onclick="addProcess()">Add Process</button>
+      </div>
 
-      <input type="number" id="quantum" placeholder="Quantum" style="display:none;" />
-      <button onclick="simulate()">Simulate</button>
+      <div class="dropdown">
+        <label>Select Scheduling Method</label>
+        <select id="algo">
+          <option value="fcfs">First Come First Serve</option>
+          <option value="sjf-non-preemptive">SJF (Non-Preemptive)</option>
+          <option value="sjf-preemptive">SJF (Preemptive)</option>
+          <option value="priority-non-preemptive">Priority (Non-Preemptive)</option>
+          <option value="priority-preemptive">Priority (Preemptive)</option>
+          <option value="rr">Round Robin</option>
+        </select>
+        <input type="number" id="quantum" placeholder="Quantum (for RR)" />
+        <button onclick="calculate()">Calculate</button>
+      </div>
     </div>
 
-    <table id="processTable">
-      <thead>
-        <tr>
-          <th>PID</th>
-          <th>Arrival</th>
-          <th>Burst</th>
-          <th>Priority</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <div id="ganttWrapper">
-      <h3>Gantt Chart</h3>
-      <div id="ganttChart"><div class="loader"></div></div>
+    <!-- Right Panel: Metrics -->
+    <div class="right-panel">
+      <div class="metrics">
+        <label>Average Turnaround Time</label>
+        <input readonly id="avgTat" />
+        <label>Average Waiting Time</label>
+        <input readonly id="avgWt" />
+        <label>Throughput</label>
+        <input readonly id="throughput" />
+      </div>
     </div>
-
-    <div id="results"></div>
-
-    <canvas id="chartCanvas" height="100"></canvas>
   </div>
 
+  <!-- Gantt Chart Section -->
+  <h3>Gantt Chart</h3>
+  <div id="ganttChartContainer">
+    <div id="ganttChart"></div>
+  </div>
+
+  <!-- Result Table -->
+  <h3>Process Summary</h3>
+  <table id="resultTable">
+    <thead>
+      <tr>
+        <th>Process ID</th>
+        <th>Arrival Time</th>
+        <th>Burst Time</th>
+        <th>Completed Time</th>
+        <th>Waiting Time</th>
+        <th>Turnaround Time</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+
+  <!-- Chart.js Canvas -->
+  <canvas id="chartCanvas" height="100"></canvas>
+
+  <!-- Script File -->
   <script src="script.js"></script>
 </body>
 </html>
